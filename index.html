@@ -64,48 +64,52 @@
       z-index: 10;
     }
 
-  // ===== BINARY HACKER BACKGROUND =====
+// ===== BINARY HACKER BACKGROUND FULL PAGE =====
 const canvas = document.getElementById("binary-bg");
 const ctx = canvas.getContext("2d");
 
-let width = canvas.width = window.innerWidth;
-let height = canvas.height = window.innerHeight;
+function resizeCanvas() {
+  canvas.width = window.innerWidth;
+  canvas.height = Math.max(document.body.scrollHeight, window.innerHeight);
+}
+resizeCanvas();
+window.addEventListener("resize", resizeCanvas);
 
-const fontSize = 18; // slightly bigger for visibility
-const columns = Math.floor(width / fontSize);
-const drops = Array(columns).fill(1);
+const fontSize = 18; // size of the characters
+let columns = Math.floor(canvas.width / fontSize);
+let drops = Array(columns).fill(1);
+
+// darker neon for subtlety
+const neonColor = "#00aa55";
 
 function drawBinary() {
-  // Draw semi-transparent background to create trail effect
-  ctx.fillStyle = "rgba(0,0,0,0.05)"; // less dark so streaks remain visible
-  ctx.fillRect(0, 0, width, height);
+  // Slightly transparent black for trails
+  ctx.fillStyle = "rgba(0,0,0,0.07)";
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-  ctx.fillStyle = "#00ff88"; // bright neon green
+  ctx.fillStyle = neonColor;
   ctx.font = `${fontSize}px monospace`;
 
   for (let i = 0; i < drops.length; i++) {
     const binary = Math.random() > 0.5 ? "1" : "0";
-    // draw each drop
     ctx.fillText(binary, i * fontSize, drops[i] * fontSize);
 
-    // move drop down
     drops[i]++;
 
-    // reset randomly for continuous rain effect
-    if (drops[i] * fontSize > height || Math.random() > 0.975) {
+    if (drops[i] * fontSize > canvas.height || Math.random() > 0.975) {
       drops[i] = 0;
     }
   }
 }
 
-// faster and smoother animation
+// Faster animation for smooth effect
 setInterval(drawBinary, 35);
 
+// Recalculate columns when window resizes
 window.addEventListener("resize", () => {
-  width = canvas.width = window.innerWidth;
-  height = canvas.height = window.innerHeight;
+  columns = Math.floor(canvas.width / fontSize);
+  drops = Array(columns).fill(1);
 });
-
 
     /* ===== LIGHTNING ===== */
     #lightning {
