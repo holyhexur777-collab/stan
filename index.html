@@ -64,16 +64,48 @@
       z-index: 10;
     }
 
-    /* ===== CANVAS BINARY BACKGROUND ===== */
-    #binary-bg {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 0; /* behind content */
-      pointer-events: none; /* click through */
+  // ===== BINARY HACKER BACKGROUND =====
+const canvas = document.getElementById("binary-bg");
+const ctx = canvas.getContext("2d");
+
+let width = canvas.width = window.innerWidth;
+let height = canvas.height = window.innerHeight;
+
+const fontSize = 18; // slightly bigger for visibility
+const columns = Math.floor(width / fontSize);
+const drops = Array(columns).fill(1);
+
+function drawBinary() {
+  // Draw semi-transparent background to create trail effect
+  ctx.fillStyle = "rgba(0,0,0,0.05)"; // less dark so streaks remain visible
+  ctx.fillRect(0, 0, width, height);
+
+  ctx.fillStyle = "#00ff88"; // bright neon green
+  ctx.font = `${fontSize}px monospace`;
+
+  for (let i = 0; i < drops.length; i++) {
+    const binary = Math.random() > 0.5 ? "1" : "0";
+    // draw each drop
+    ctx.fillText(binary, i * fontSize, drops[i] * fontSize);
+
+    // move drop down
+    drops[i]++;
+
+    // reset randomly for continuous rain effect
+    if (drops[i] * fontSize > height || Math.random() > 0.975) {
+      drops[i] = 0;
     }
+  }
+}
+
+// faster and smoother animation
+setInterval(drawBinary, 35);
+
+window.addEventListener("resize", () => {
+  width = canvas.width = window.innerWidth;
+  height = canvas.height = window.innerHeight;
+});
+
 
     /* ===== LIGHTNING ===== */
     #lightning {
