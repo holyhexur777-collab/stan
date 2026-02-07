@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stanley Medallo - Portfolio</title>
+
+  <style>
+    /* ===== BASE STYLES ===== */
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #0a0a0a;
+      color: #e0e0e0;
+      font-family: "Courier New", monospace;
+      line-height: 1.6;
+      transition: background-color 0.2s ease;
+      cursor: default;
+    }
+
+    h1, h2, h3 {
+      font-family: "Times New Roman", serif;
+      font-weight: normal;
+      letter-spacing: 1px;
+    }
+
+    h1 {
+      font-size: 3em;
+      margin-bottom: 0;
+    }
+
+    h2 {
+      font-size: 1.8em;
+      margin-bottom: 0.5em;
+    }
+
+    section {
+      max-width: 820px;
+      margin: auto;
+      padding: 60px 20px;
+      border-bottom: 1px solid #222;
+    }
+
+    p, li {
+      color: #ccc;
+      font-size: 1em;
+    }
+
+    ul {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    li::before {
+      content: "▸ ";
+      color: #555;
+    }
+
+    a {
+      color: #77caff;
+      text-decoration: none;
+    }
+
+    a:hover {
+      color: #ff7777;
+    }
+
+    footer {
+      text-align: center;
+      padding: 40px 20px;
+      color: #555;
+      font-size: 0.9em;
+    }
+
+    .meta {
+      font-style: italic;
+      color: #888;
+    }
+
+    .tooltip {
+      border-bottom: 1px dotted #77caff;
+      cursor: help;
+      position: relative;
+    }
+
+    .tooltip:hover::after {
+      content: attr(data-text);
+      position: absolute;
+      left: 0;
+      bottom: -1.6em;
+      background: #111;
+      color: #77caff;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 0.85em;
+      white-space: nowrap;
+      z-index: 10;
+    }
+
+    /* ===== LIGHTNING ===== */
+    #lightning {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.05);
+      opacity: 0;
+      pointer-events: none;
+      z-index: 999;
+    }
+
+    /* ===== CURSOR GLITCH ===== */
+    body.glitch-cursor {
+      cursor: none;
+    }
+
+    #glitch-cursor {
+      position: fixed;
+      width: 12px;
+      height: 12px;
+      background: #77caff;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 1000;
+      mix-blend-mode: difference;
+      transition: transform 0.05s linear;
+    }
+
+    /* ===== HERO WITH PROFILE PIC ===== */
+    #hero {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    #hero img {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      border: 2px solid #77caff;
+      object-fit: cover;
+      box-shadow: 0 0 15px #77caff;
+    }
+
+    @media (max-width: 600px){
+      #hero {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+      #hero img {
+        margin-bottom: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="lightning"></div>
+  <div id="glitch-cursor"></div>
+
+  <!-- HERO -->
+  <section id="hero">
+    <img src="profile.jpg" alt="Stanley Medallo">
+    <div>
+      <h1>STANLEY MEDALLO</h1>
+      <p><em>Human. Allegedly.</em></p>
+      <p class="meta">You are not here by accident. This page noticed you first.</p>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section>
+    <h2>About</h2>
+    <p><strong>Name:</strong> Stanley Medallo</p>
+    <p><strong>Alias:</strong> Hummingbird007</p>
+    <p><strong>Guild:</strong> †es†amen†um</p>
+    <p><strong>Classification:</strong> Human</p>
+    <p><strong>Status:</strong> Active</p>
+    <p class="meta">This information has adjusted itself for you.</p>
+  </section>
+
+  <!-- OVERVIEW -->
+  <section>
+    <h2>Overview</h2>
+    <p>
+      I work where systems fail and assumptions break.
+      Digital or arcane. Organized or chaotic.
+      If it exists, it can be tested.
+    </p>
+    <p>
+      If you’re reading this as a portfolio, I am overqualified.
+      If you’re reading this out of curiosity, you stayed longer than most.
+    </p>
+  </section>
+
+  <!-- CAPABILITIES -->
+  <section>
+    <h2>Capabilities</h2>
+    <ul>
+      <li>
+        <span class="tooltip" data-text="Some numbers are missing on purpose.">
+          Black Hat Hacking <em>(facility count unavailable)</em>
+        </span>
+      </li>
+      <li>Cyber Penetration & System Compromise</li>
+      <li>Magecraft (authorized and otherwise)</li>
+      <li>Street Fighting (urban doctrine)</li>
+      <li>Manaksak (applied disorder)</li>
+      <li>Pattern Recognition (humans, systems, lies)</li>
+    </ul>
+  </section>
+
+  <!-- EDUCATION -->
+  <section>
+    <h2>Education</h2>
+    <p><strong>Hogwarts School of Witchcraft and Wizardry</strong></p>
+    <p>Advanced Magecraft Studies</p>
+    <p class="meta">
+      Some lessons continued beyond the syllabus.
+      Not all knowledge asks for permission.
+    </p>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section>
+    <h2>Competitive & Combat Experience</h2>
+
+    <p><strong>Gladiator Arena — Roman Coliseum</strong><br>
+      Role: Combatant<br>
+      Outcome: Survived
+    </p>
+
+    <p><strong>Tournament of Power — Multiversal Event</strong><br>
+      Role: Participant<br>
+      Outcome: Inconclusive
+    </p>
+
+    <p class="meta">Records disagree on what happened next.</p>
+  </section>
+
+  <!-- INTERESTS -->
+  <section>
+    <h2>Interests</h2>
+    <ul>
+      <li>Magecraft as discipline</li>
+      <li>Cyber penetration as study</li>
+      <li>Street fighting as calibration</li>
+      <li>Silence as leverage</li>
+      <li>Restraint as survival</li>
+    </ul>
+    <p class="meta">These are not hobbies. They are maintenance.</p>
+  </section>
+
+  <!-- LOCATION -->
+  <section>
+    <h2>Location</h2>
+    <p>
+      <strong>Obsidian Row, Unit 777</strong><br>
+      District of Lost Gold<br>
+      El Dorado City<br>
+      Province of Eternal Dusk<br>
+      <strong>Country:</strong> Gehenna
+    </p>
+    <p class="meta">Visitors are advised not to linger.</p>
+  </section>
+
+  <!-- CREDENTIALS -->
+  <section>
+    <h2>Credentials</h2>
+    <ul>
+      <li>CEUH — Certified Ethical Unethical Hacker</li>
+      <li>Arcane Clearance Level: Black-777</li>
+      <li>Guild Affiliation: †es†amen†um</li>
+      <li>Records: Sealed</li>
+    </ul>
+    <p class="meta">Access denied.</p>
+  </section>
+
+  <!-- PHILOSOPHY -->
+  <section>
+    <h2>Philosophy</h2>
+    <p><em>
+      I do not seek control.  
+      I seek understanding.  
+      Control follows when understanding fails.
+    </em></p>
+  </section>
+
+  <!-- CONTACT -->
+  <section>
+    <h2>Contact</h2>
+    <p>Email: <a href="mailto:contact@stanleymedallo.info">contact@stanleymedallo.info</a></p>
+    <p class="meta">Messages are read. Some are remembered.</p>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>© Stanley Medallo</p>
+    <p>†es†amen†um</p>
+    <p class="meta">This page was complete before you opened it.</p>
+  </footer>
+
+  <!-- ===== SCRIPTS ===== -->
+  <script>
+    // --- Lightning / Thunderstorm ---
+    const lightning = document.getElementById("lightning");
+    function thunderFlash() {
+      lightning.style.opacity = Math.random() * 0.15 + 0.05;
+      document.body.style.backgroundColor = "#070707";
+      setTimeout(() => {
+        lightning.style.opacity = 0;
+        document.body.style.backgroundColor = "#0a0a0a";
+      }, 120);
+    }
+
+    function scheduleThunder() {
+      const delay = Math.random() * 12000 + 6000;
+      setTimeout(() => {
+        thunderFlash();
+        if (Math.random() > 0.6) setTimeout(thunderFlash, 180);
+        scheduleThunder();
+      }, delay);
+    }
+    scheduleThunder();
+
+    // --- Cursor Glitch ---
+    const cursor = document.getElementById("glitch-cursor");
+    document.body.classList.add("glitch-cursor");
+    document.addEventListener("mousemove", e => {
+      const offsetX = (Math.random() - 0.5) * 10;
+      const offsetY = (Math.random() - 0.5) * 10;
+      cursor.style.transform = `translate(${e.clientX + offsetX}px, ${e.clientY + offsetY}px)`;
+    });
+
+    // --- Archive Mode (Meta-dark) ---
+    const archiveMode = window.location.pathname.includes("/archive-777");
+    if(archiveMode){
+      document.querySelectorAll("p.meta").forEach(p=>{
+        p.textContent = "This section is classified. Access granted only to initiates.";
+      });
+      document.querySelectorAll("h2").forEach(h=>{
+        h.style.color = "#ff4444";
+      });
+    }
+  </script>
+
+  <!-- ===== Rain Sound ===== -->
+  <audio autoplay loop>
+    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-10.mp3" type="audio/mpeg">
+  </audio>
+
+</body>
+</html>
