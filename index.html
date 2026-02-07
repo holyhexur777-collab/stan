@@ -1,209 +1,254 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Stanley Medallo — Archive</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stanley Medallo - Portfolio</title>
 
-  <style>
-    /* RESET */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+<style>
+/* ===== BASE STYLES ===== */
+body {
+  margin:0;
+  padding:0;
+  background-color:#0a0a0a;
+  color:#e0e0e0;
+  font-family:"Courier New", monospace;
+  line-height:1.6;
+  transition: background-color 0.1s ease;
+  cursor:default;
+  overflow-x:hidden;
+}
 
-    body {
-      background: #050807;
-      color: rgba(200, 255, 230, 0.85);
-      font-family: 'Courier New', monospace;
-      overflow-x: hidden;
-      min-height: 100vh;
-    }
+h1,h2,h3 {
+  font-family:"Times New Roman", serif;
+  font-weight:normal;
+  letter-spacing:1px;
+  transition: color 0.2s ease,text-shadow 0.2s ease;
+}
 
-    /* ===== BINARY RAIN BACKGROUND ===== */
-    .binary-bg {
-      position: fixed;
-      inset: 0;
-      z-index: 0;
-      pointer-events: none;
-      background-image:
-        repeating-linear-gradient(
-          to bottom,
-          rgba(0,255,170,0.03) 0px,
-          rgba(0,255,170,0.03) 1px,
-          transparent 2px,
-          transparent 6px
-        );
-      animation: binaryMove 12s linear infinite;
-    }
+h1 { font-size:3em; margin-bottom:0; }
+h2 { font-size:1.8em; margin-bottom:0.5em; }
 
-    @keyframes binaryMove {
-      from { background-position-y: 0; }
-      to { background-position-y: 1000px; }
-    }
+section {
+  max-width:820px;
+  margin:auto;
+  padding:60px 20px;
+  border-bottom:1px solid #222;
+  position:relative;
+  z-index:1;
+  background: rgba(0,0,0,0.15);
+}
 
-    /* ===== CICADA IDLE LAYER ===== */
-    #cicada-layer {
-      position: fixed;
-      inset: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+p,li { color:#ccc; font-size:1em; }
+ul { list-style:none; padding-left:0; }
+li::before { content:"▸ "; color:#555; }
 
-      font-size: 4rem;
-      letter-spacing: 0.6rem;
-      text-align: center;
+a { color:#77caff; text-decoration:none; }
+a:hover { color:#ff7777; }
 
-      color: rgba(0, 255, 170, 0.18);
-      text-shadow:
-        0 0 8px rgba(0, 255, 170, 0.25),
-        0 0 16px rgba(0, 255, 170, 0.18),
-        0 0 32px rgba(0, 255, 170, 0.12);
+/* ===== FOOTER (ADJUSTED) ===== */
+footer {
+  text-align:center;
+  padding:40px 20px;
+  font-size:0.9em;
+  color: rgba(0,170,85,0.65);
+  border-top:1px solid rgba(0,170,85,0.25);
+  text-shadow:0 0 6px rgba(0,170,85,0.25);
+}
 
-      opacity: 0;
-      transition: opacity 2.5s ease;
-      z-index: 1;
-      pointer-events: none;
-    }
+.meta { font-style:italic; color:#888; }
 
-    #cicada-layer.visible {
-      opacity: 1;
-      animation: cicadaPulse 6s ease-in-out infinite;
-    }
+/* ===== TOOLTIP ===== */
+.tooltip { border-bottom:1px dotted #77caff; cursor:help; position:relative; }
+.tooltip:hover::after {
+  content: attr(data-text);
+  position: absolute;
+  left: 0;
+  bottom: -1.6em;
+  background: #111;
+  color: #77caff;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.85em;
+  white-space: nowrap;
+  z-index: 10;
+}
 
-    @keyframes cicadaPulse {
-      0%, 100% {
-        text-shadow: 0 0 8px rgba(0,255,170,0.2);
-      }
-      50% {
-        text-shadow: 0 0 20px rgba(0,255,170,0.35);
-      }
-    }
+/* ===== CANVAS BINARY BACKGROUND ===== */
+#binary-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
 
-    /* ===== MAIN CONTENT ===== */
-    .container {
-      position: relative;
-      z-index: 2;
-      max-width: 900px;
-      margin: 4rem auto;
-      padding: 2.5rem;
-      background: rgba(5, 12, 10, 0.85);
-      border: 1px solid rgba(0,255,170,0.25);
-      box-shadow: 0 0 40px rgba(0,0,0,0.9);
-    }
+/* ===== CICADA 3301 (IDLE ONLY) ===== */
+#cicada-logo {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  width: 200px;
+  height: 200px;
+  background: url('cicada3301.png') no-repeat center center;
+  background-size: contain;
 
-    h1 {
-      font-size: 2.5rem;
-      margin-bottom: 0.5rem;
-      text-shadow: 0 0 12px rgba(0,255,170,0.3);
-    }
+  opacity: 0;
+  transition: opacity 2s ease;
+  z-index: 0;
+  pointer-events: none;
+}
 
-    h2 {
-      margin-top: 2.5rem;
-      margin-bottom: 1rem;
-      font-size: 1.4rem;
-      color: rgba(0,255,170,0.85);
-      border-bottom: 1px solid rgba(0,255,170,0.25);
-      padding-bottom: 0.3rem;
-    }
+#cicada-logo.visible {
+  opacity: 0.18;
+}
 
-    p, li {
-      line-height: 1.7;
-      margin-bottom: 0.6rem;
-    }
+/* ===== LIGHTNING ===== */
+#lightning {
+  position: fixed;
+  inset:0;
+  background: rgba(255,255,255,0.15);
+  opacity:0;
+  pointer-events:none;
+  z-index:998;
+  transition: opacity 0.1s ease;
+}
 
-    ul {
-      list-style: none;
-    }
+/* ===== CURSOR GLITCH ===== */
+body.glitch-cursor { cursor:none; }
+#glitch-cursor {
+  position: fixed;
+  width:12px;
+  height:12px;
+  background:#77caff;
+  border-radius:50%;
+  pointer-events:none;
+  z-index:1000;
+  mix-blend-mode:difference;
+}
 
-    ul li::before {
-      content: "▸ ";
-      color: rgba(0,255,170,0.7);
-    }
+/* ===== HERO ===== */
+#hero { display:flex; align-items:center; gap:20px; position:relative; z-index:1; }
+#hero img {
+  width:120px;
+  height:120px;
+  border-radius:50%;
+  border:2px solid #77caff;
+  object-fit:cover;
+  box-shadow:0 0 15px #77caff;
+}
 
-    /* ===== FOOTER ===== */
-    footer {
-      position: relative;
-      z-index: 2;
-      text-align: center;
-      margin: 4rem auto 2rem;
-      padding-top: 1.5rem;
-      max-width: 900px;
-      font-size: 0.9rem;
-      color: rgba(0,255,170,0.65);
-      border-top: 1px solid rgba(0,255,170,0.25);
-      text-shadow: 0 0 6px rgba(0,255,170,0.2);
-    }
-  </style>
+@media(max-width:600px){
+  #hero { flex-direction:column; text-align:center; }
+}
+
+/* ===== PROFILE GLITCH ===== */
+@keyframes glitch-small{
+  0%{transform:none;}
+  50%{transform:translate(-2px,1px) skew(1deg);}
+  100%{transform:none;}
+}
+
+@keyframes glitch-strong{
+  0%{transform:none;}
+  50%{transform:translate(-5px,5px) skew(3deg);}
+  100%{transform:none;}
+}
+</style>
 </head>
 
 <body>
 
-  <!-- BACKGROUND -->
-  <div class="binary-bg"></div>
+<canvas id="binary-bg"></canvas>
+<div id="cicada-logo"></div>
+<div id="lightning"></div>
+<div id="glitch-cursor"></div>
 
-  <!-- CICADA -->
-  <div id="cicada-layer">
-    CICADA 3301 ░ SEEK ░ DECIPHER ░ 777 ░
+<section id="hero">
+  <img id="profile-pic" src="profile.jpg" alt="Stanley Medallo">
+  <div>
+    <h1>STANLEY MEDALLO</h1>
+    <p><em>Human. Allegedly.</em></p>
+    <p class="meta">You are not here by accident.</p>
   </div>
+</section>
 
-  <!-- CONTENT -->
-  <div class="container">
-    <h1>Stanley Medallo</h1>
-    <p>Human • Black Hat Hacker</p>
-    <p>Contact: contact@stanleymedallo.info</p>
+<section>
+<h2>Capabilities</h2>
+<ul>
+<li><span class="tooltip" data-text="Some numbers are missing.">Black Hat Hacking <em>(facility count unavailable)</em></span></li>
+<li>Cyber Penetration</li>
+<li>Magecraft</li>
+<li>Street Combat</li>
+<li>Manaksak</li>
+</ul>
+</section>
 
-    <h2>Affiliations</h2>
-    <p>Guild: †es†amen†um</p>
-    <p>Education: Hogwarts School of Witchcraft and Wizardry</p>
+<footer>
+<p>© Stanley Medallo</p>
+<p>†es†amen†um</p>
+<p class="meta">Observation active • 777</p>
+</footer>
 
-    <h2>Capabilities</h2>
-    <ul>
-      <li>Black Hat Hacking (facility count unavailable)</li>
-      <li>Cyber Penetration</li>
-      <li>Magecraft</li>
-      <li>Street Combat</li>
-      <li>Manaksak</li>
-    </ul>
+<script>
+/* ===== BINARY RAIN ===== */
+const canvas=document.getElementById("binary-bg");
+const ctx=canvas.getContext("2d");
+let w,h,cols,drops;
+const fontSize=18;
 
-    <h2>Experience</h2>
-    <ul>
-      <li>Gladiator Arena (Roman Coliseum reference)</li>
-      <li>Tournament of Power (DBZ reference)</li>
-    </ul>
+function resize(){
+  w=canvas.width=window.innerWidth;
+  h=canvas.height=window.innerHeight;
+  cols=Math.floor(w/fontSize);
+  drops=Array(cols).fill(1);
+}
+resize();
+window.addEventListener("resize",resize);
 
-    <h2>Location</h2>
-    <p>777 Ashen Spiral Way<br>
-       El Dorado District<br>
-       Gehenna</p>
-  </div>
+function rain(){
+  ctx.fillStyle="rgba(0,0,0,0.15)";
+  ctx.fillRect(0,0,w,h);
+  ctx.fillStyle="rgba(0,170,85,0.15)";
+  ctx.font=fontSize+"px monospace";
+  for(let i=0;i<drops.length;i++){
+    ctx.fillText(Math.random()>0.5?"1":"0",i*fontSize,drops[i]*fontSize);
+    drops[i]++;
+    if(drops[i]*fontSize>h)drops[i]=0;
+  }
+}
+setInterval(rain,35);
 
-  <footer>
-    ARCHIVAL STATUS: RESTRICTED • OBSERVATION ACTIVE • 777
-  </footer>
+/* ===== LIGHTNING ===== */
+const lightning=document.getElementById("lightning");
+const cicada=document.getElementById("cicada-logo");
 
-  <!-- IDLE SCRIPT -->
-  <script>
-    let idleTimer;
-    const cicada = document.getElementById("cicada-layer");
-    const IDLE_TIME = 30000; // 30 seconds
+function flash(){
+  lightning.style.opacity=0.3;
+  cicada.style.opacity=Math.max(cicada.style.opacity,0.25);
+  setTimeout(()=>lightning.style.opacity=0,150);
+}
+setInterval(()=>{ if(Math.random()>0.7) flash(); },6000);
 
-    function resetIdleTimer() {
-      clearTimeout(idleTimer);
-      cicada.classList.remove("visible");
+/* ===== CICADA IDLE ===== */
+let idleTimer;
+function resetIdle(){
+  clearTimeout(idleTimer);
+  cicada.classList.remove("visible");
+  idleTimer=setTimeout(()=>cicada.classList.add("visible"),30000);
+}
+["mousemove","keydown","scroll","touchstart"].forEach(e=>window.addEventListener(e,resetIdle,{passive:true}));
+resetIdle();
 
-      idleTimer = setTimeout(() => {
-        cicada.classList.add("visible");
-      }, IDLE_TIME);
-    }
-
-    ["mousemove", "keydown", "scroll", "touchstart"].forEach(event => {
-      window.addEventListener(event, resetIdleTimer, { passive: true });
-    });
-
-    resetIdleTimer();
-  </script>
+/* ===== PROFILE GLITCH ===== */
+const pic=document.getElementById("profile-pic");
+function glitch(){
+  pic.style.animation=(Math.random()>0.5?"glitch-strong":"glitch-small")+" 0.3s linear";
+  setTimeout(()=>pic.style.animation="",300);
+  setTimeout(glitch,Math.random()*3000+2000);
+}
+glitch();
+</script>
 
 </body>
 </html>
