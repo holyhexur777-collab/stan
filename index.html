@@ -16,6 +16,7 @@
       line-height: 1.6;
       transition: background-color 0.1s ease;
       cursor: default;
+      overflow-x: hidden;
     }
 
     h1, h2, h3 {
@@ -33,6 +34,8 @@
       margin: auto;
       padding: 60px 20px;
       border-bottom: 1px solid #222;
+      position: relative;
+      z-index: 1;
     }
 
     p, li { color: #ccc; font-size: 1em; }
@@ -61,6 +64,17 @@
       z-index: 10;
     }
 
+    /* ===== CANVAS BINARY BACKGROUND ===== */
+    #binary-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0; /* behind content */
+      pointer-events: none; /* click through */
+    }
+
     /* ===== LIGHTNING ===== */
     #lightning {
       position: fixed;
@@ -71,13 +85,12 @@
       background: rgba(255, 255, 255, 0.15);
       opacity: 0;
       pointer-events: none;
-      z-index: 999;
+      z-index: 998;
       transition: opacity 0.1s ease;
     }
 
     /* ===== CURSOR GLITCH ===== */
     body.glitch-cursor { cursor: none; }
-
     #glitch-cursor {
       position: fixed;
       width: 12px;
@@ -91,8 +104,7 @@
     }
 
     /* ===== HERO WITH PROFILE PIC ===== */
-    #hero { display: flex; align-items: center; gap: 20px; }
-
+    #hero { display: flex; align-items: center; gap: 20px; position: relative; z-index: 1; }
     #hero img {
       width: 120px;
       height: 120px;
@@ -111,6 +123,10 @@
 </head>
 <body>
 
+  <!-- BINARY BACKGROUND -->
+  <canvas id="binary-bg"></canvas>
+
+  <!-- LIGHTNING -->
   <div id="lightning"></div>
   <div id="glitch-cursor"></div>
 
@@ -224,24 +240,52 @@
 
   <!-- ===== SCRIPTS ===== -->
   <script>
+    // ===== BINARY BACKGROUND =====
+    const canvas = document.getElementById("binary-bg");
+    const ctx = canvas.getContext("2d");
+    let width = canvas.width = window.innerWidth;
+    let height = canvas.height = window.innerHeight;
+    const fontSize = 16;
+    const columns = Math.floor(width / fontSize);
+    const drops = Array(columns).fill(1);
+
+    function drawBinary() {
+      ctx.fillStyle = "rgba(10,10,10,0.2)";
+      ctx.fillRect(0, 0, width, height);
+
+      ctx.fillStyle = "#33ff33";
+      ctx.font = `${fontSize}px monospace`;
+
+      for (let i = 0; i < drops.length; i++) {
+        const text = Math.random() > 0.5 ? "1" : "0";
+        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+        drops[i]++;
+        if (drops[i] * fontSize > height || Math.random() > 0.98) drops[i] = 0;
+      }
+    }
+    setInterval(drawBinary, 50);
+
+    window.addEventListener("resize", () => {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    });
+
+    // ===== LIGHTNING + PROFILE GLOW + HEADING FLASH =====
     const lightning = document.getElementById("lightning");
     const profilePic = document.getElementById("profile-pic");
     const headings = document.querySelectorAll("h1, h2");
 
-    // Lightning + profile pic glow + heading flash
     function thunderFlash() {
-      const intensity = Math.random() * 0.4 + 0.2; // strong
+      const intensity = Math.random() * 0.4 + 0.2;
       lightning.style.opacity = intensity;
       document.body.style.backgroundColor = "#050505";
 
-      // Glow pulse profile picture
-      profilePic.style.boxShadow = `0 0 ${30 * intensity}px #77caff, 0 0 ${60 * intensity}px #77caff`;
-      profilePic.style.transform = `scale(${1 + 0.05 * intensity})`;
+      profilePic.style.boxShadow = `0 0 ${30*intensity}px #77caff, 0 0 ${60*intensity}px #77caff`;
+      profilePic.style.transform = `scale(${1 + 0.05*intensity})`;
 
-      // Flash headings
       headings.forEach(h => {
         h.style.color = "#ffdd77";
-        h.style.textShadow = `0 0 ${15 * intensity}px #ffdd77, 0 0 ${30 * intensity}px #ffdd77`;
+        h.style.textShadow = `0 0 ${15*intensity}px #ffdd77, 0 0 ${30*intensity}px #ffdd77`;
       });
 
       setTimeout(() => {
@@ -249,15 +293,12 @@
         document.body.style.backgroundColor = "#0a0a0a";
         profilePic.style.boxShadow = `0 0 15px #77caff`;
         profilePic.style.transform = "scale(1)";
-        headings.forEach(h => {
-          h.style.color = "";
-          h.style.textShadow = "";
-        });
+        headings.forEach(h => { h.style.color = ""; h.style.textShadow = ""; });
       }, 200);
     }
 
     function scheduleThunder() {
-      const delay = Math.random() * 10000 + 4000;
+      const delay = Math.random()*10000 + 4000;
       setTimeout(() => {
         thunderFlash();
         if (Math.random() > 0.5) setTimeout(thunderFlash, 150);
@@ -266,16 +307,16 @@
     }
     scheduleThunder();
 
-    // Cursor glitch
+    // ===== CURSOR GLITCH =====
     const cursor = document.getElementById("glitch-cursor");
     document.body.classList.add("glitch-cursor");
     document.addEventListener("mousemove", e => {
-      const offsetX = (Math.random() - 0.5) * 10;
-      const offsetY = (Math.random() - 0.5) * 10;
-      cursor.style.transform = `translate(${e.clientX + offsetX}px, ${e.clientY + offsetY}px)`;
+      const offsetX = (Math.random()-0.5)*10;
+      const offsetY = (Math.random()-0.5)*10;
+      cursor.style.transform = `translate(${e.clientX+offsetX}px, ${e.clientY+offsetY}px)`;
     });
 
-    // Archive Mode
+    // ===== ARCHIVE MODE =====
     const archiveMode = window.location.pathname.includes("/archive-777");
     if(archiveMode){
       document.querySelectorAll("p.meta").forEach(p=>{
@@ -287,11 +328,10 @@
     }
   </script>
 
-  <!-- Rain sound -->
+  <!-- ===== RAIN SOUND ===== -->
   <audio autoplay loop>
     <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-10.mp3" type="audio/mpeg">
   </audio>
 
 </body>
 </html>
-
