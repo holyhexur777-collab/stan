@@ -6,38 +6,152 @@
 <title>Stanley Medallo - Portfolio</title>
 <style>
 /* ===== BASE STYLES ===== */
-body {margin:0;padding:0;background-color:#0a0a0a;color:#e0e0e0;font-family:"Courier New", monospace;line-height:1.6;transition: background-color 0.1s ease;cursor:default;overflow-x:hidden;}
-h1,h2,h3{font-family:"Times New Roman", serif;font-weight:normal;letter-spacing:1px;transition: color 0.2s ease,text-shadow 0.2s ease;}
-h1{font-size:3em;margin-bottom:0;} h2{font-size:1.8em;margin-bottom:0.5em;}
-section{max-width:820px;margin:auto;padding:60px 20px;border-bottom:1px solid #222;position:relative;z-index:1;}
-p,li{color:#ccc;font-size:1em;} ul{list-style:none;padding-left:0;} li::before{content:"▸ ";color:#555;}
-a{color:#77caff;text-decoration:none;} a:hover{color:#ff7777;}
-footer{text-align:center;padding:40px 20px;color:#555;font-size:0.9em;}
-.meta{font-style:italic;color:#888;}
-.tooltip{border-bottom:1px dotted #77caff;cursor:help;position:relative;}
-.tooltip:hover::after{content:attr(data-text);position:absolute;left:0;bottom:-1.6em;background:#111;color:#77caff;padding:4px 8px;border-radius:4px;font-size:0.85em;white-space:nowrap;z-index:10;}
+body {
+  margin:0;
+  padding:0;
+  background-color:#0a0a0a;
+  color:#e0e0e0;
+  font-family:"Courier New", monospace;
+  line-height:1.6;
+  transition: background-color 0.1s ease;
+  cursor:default;
+  overflow-x:hidden;
+}
+
+h1,h2,h3 {
+  font-family:"Times New Roman", serif;
+  font-weight:normal;
+  letter-spacing:1px;
+  transition: color 0.2s ease,text-shadow 0.2s ease;
+}
+
+h1 { font-size:3em; margin-bottom:0; }
+h2 { font-size:1.8em; margin-bottom:0.5em; }
+
+section {
+  max-width:820px;
+  margin:auto;
+  padding:60px 20px;
+  border-bottom:1px solid #222;
+  position:relative;
+  z-index:1;
+  background: rgba(0,0,0,0.15); /* subtle overlay for readability */
+}
+
+p,li { color:#ccc; font-size:1em; }
+ul { list-style:none; padding-left:0; }
+li::before { content:"▸ "; color:#555; }
+
+a { color:#77caff; text-decoration:none; }
+a:hover { color:#ff7777; }
+
+footer { text-align:center; padding:40px 20px; color:#555; font-size:0.9em; }
+
+.meta { font-style:italic; color:#888; }
+
+.tooltip { border-bottom:1px dotted #77caff; cursor:help; position:relative; }
+.tooltip:hover::after {
+  content: attr(data-text);
+  position: absolute;
+  left: 0;
+  bottom: -1.6em;
+  background: #111;
+  color: #77caff;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.85em;
+  white-space: nowrap;
+  z-index: 10;
+}
 
 /* ===== CANVAS BINARY BACKGROUND ===== */
-#binary-bg{position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:0;pointer-events:none;}
+#binary-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+  pointer-events: none;
+}
 
 /* ===== CICADA 3301 GHOST LOGO ===== */
-#cicada-logo{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:200px;height:200px;background:url('cicada3301.png') no-repeat center center;background-size:contain;opacity:0.08;z-index:0;pointer-events:none;transition:opacity 0.5s ease;}
+#cicada-logo {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  width: 200px;
+  height: 200px;
+  background: url('cicada3301.png') no-repeat center center;
+  background-size: contain;
+  opacity: 0.08;
+  z-index: 0;
+  pointer-events: none;
+  transition: opacity 0.5s ease;
+}
 
 /* ===== LIGHTNING ===== */
-#lightning{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(255,255,255,0.15);opacity:0;pointer-events:none;z-index:998;transition:opacity 0.1s ease;}
+#lightning {
+  position: fixed;
+  top:0; left:0;
+  width:100%;
+  height:100%;
+  background: rgba(255,255,255,0.15);
+  opacity:0;
+  pointer-events:none;
+  z-index:998;
+  transition: opacity 0.1s ease;
+}
 
 /* ===== CURSOR GLITCH ===== */
-body.glitch-cursor{cursor:none;}
-#glitch-cursor{position:fixed;width:12px;height:12px;background:#77caff;border-radius:50%;pointer-events:none;z-index:1000;mix-blend-mode:difference;transition:transform 0.05s linear;}
+body.glitch-cursor { cursor:none; }
+#glitch-cursor {
+  position: fixed;
+  width:12px;
+  height:12px;
+  background:#77caff;
+  border-radius:50%;
+  pointer-events:none;
+  z-index:1000;
+  mix-blend-mode:difference;
+  transition: transform 0.05s linear;
+}
 
 /* ===== HERO WITH PROFILE PIC ===== */
-#hero{display:flex;align-items:center;gap:20px;position:relative;z-index:1;}
-#hero img{width:120px;height:120px;border-radius:50%;border:2px solid #77caff;object-fit:cover;box-shadow:0 0 15px #77caff;transition:box-shadow 0.15s ease,transform 0.15s ease;}
-@media(max-width:600px){#hero{flex-direction:column;align-items:center;text-align:center;}#hero img{margin-bottom:15px;}}
+#hero { display:flex; align-items:center; gap:20px; position:relative; z-index:1; }
+#hero img {
+  width:120px;
+  height:120px;
+  border-radius:50%;
+  border:2px solid #77caff;
+  object-fit:cover;
+  box-shadow:0 0 15px #77caff;
+  transition: box-shadow 0.15s ease, transform 0.15s ease;
+}
+
+@media(max-width:600px){
+  #hero { flex-direction:column; align-items:center; text-align:center; }
+  #hero img { margin-bottom:15px; }
+}
 
 /* ===== PROFILE GLITCH ===== */
-@keyframes glitch-small{0%{transform:translate(0,0) skew(0deg);filter:none;}20%{transform:translate(-2px,1px) skew(1deg);filter:brightness(1.2);}40%{transform:translate(1px,-1px) skew(-1deg);filter:brightness(0.9);}60%{transform:translate(-1px,2px) skew(0.5deg);filter:none;}80%{transform:translate(1px,0) skew(-0.5deg);filter:brightness(1.1);}100%{transform:translate(0,0) skew(0deg);filter:none;}}
-@keyframes glitch-strong{0%{transform:translate(0,0) rotate(0deg) skew(0deg);filter:hue-rotate(0deg) brightness(1);}25%{transform:translate(-5px,5px) rotate(-1deg) skew(3deg);filter:hue-rotate(30deg) brightness(1.2);}50%{transform:translate(5px,-5px) rotate(1deg) skew(-3deg);filter:hue-rotate(-30deg) brightness(0.8);}75%{transform:translate(-3px,3px) rotate(0.5deg) skew(2deg);filter:hue-rotate(15deg) brightness(1.1);}100%{transform:translate(0,0) rotate(0deg) skew(0deg);filter:hue-rotate(0deg) brightness(1);}}
+@keyframes glitch-small{
+  0%{transform:translate(0,0) skew(0deg);filter:none;}
+  20%{transform:translate(-2px,1px) skew(1deg);filter:brightness(1.2);}
+  40%{transform:translate(1px,-1px) skew(-1deg);filter:brightness(0.9);}
+  60%{transform:translate(-1px,2px) skew(0.5deg);filter:none;}
+  80%{transform:translate(1px,0) skew(-0.5deg);filter:brightness(1.1);}
+  100%{transform:translate(0,0) skew(0deg);filter:none;}
+}
+
+@keyframes glitch-strong{
+  0%{transform:translate(0,0) rotate(0deg) skew(0deg);filter:hue-rotate(0deg) brightness(1);}
+  25%{transform:translate(-5px,5px) rotate(-1deg) skew(3deg);filter:hue-rotate(30deg) brightness(1.2);}
+  50%{transform:translate(5px,-5px) rotate(1deg) skew(-3deg);filter:hue-rotate(-30deg) brightness(0.8);}
+  75%{transform:translate(-3px,3px) rotate(0.5deg) skew(2deg);filter:hue-rotate(15deg) brightness(1.1);}
+  100%{transform:translate(0,0) rotate(0deg) skew(0deg);filter:hue-rotate(0deg) brightness(1);}
+}
 </style>
 </head>
 <body>
@@ -121,10 +235,23 @@ const ctx=canvas.getContext("2d");
 let width,height,columns,drops;
 const fontSize=18;
 const neonColor="#00aa55";
+
 function initCanvas(){width=canvas.width=window.innerWidth;height=canvas.height=window.innerHeight;columns=Math.floor(width/fontSize);drops=Array(columns).fill(1);}
 initCanvas();
 window.addEventListener("resize",initCanvas);
-function drawBinary(){ctx.fillStyle="rgba(0,0,0,0.07)";ctx.fillRect(0,0,width,height);ctx.fillStyle=neonColor;ctx.font=`${fontSize}px monospace`;for(let i=0;i<drops.length;i++){const binary=Math.random()>0.5?"1":"0";ctx.fillText(binary,i*fontSize,drops[i]*fontSize);drops[i]+=1+Math.random()*0.5;if(drops[i]*fontSize>height)drops[i]=0;}}
+
+function drawBinary(){
+  ctx.fillStyle="rgba(0,0,0,0.15)"; // darker fade
+  ctx.fillRect(0,0,width,height);
+  ctx.fillStyle="rgba(0,170,85,0.15)"; // subtle neon
+  ctx.font=`${fontSize}px monospace`;
+  for(let i=0;i<drops.length;i++){
+    const binary=Math.random()>0.5?"1":"0";
+    ctx.fillText(binary,i*fontSize,drops[i]*fontSize);
+    drops[i]+=1+Math.random()*0.5;
+    if(drops[i]*fontSize>height)drops[i]=0;
+  }
+}
 setInterval(drawBinary,35);
 
 // ===== LIGHTNING + PROFILE GLOW + CICADA =====
@@ -142,7 +269,13 @@ function thunderFlash(){
   headings.forEach(h=>{h.style.color="#ffdd77";h.style.textShadow=`0 0 ${15*intensity}px #ffdd77,0 0 ${30*intensity}px #ffdd77`;});
   cicada.style.opacity=0.25;
   setTimeout(()=>{cicada.style.opacity=0.08;},200);
-  setTimeout(()=>{lightning.style.opacity=0;document.body.style.backgroundColor="#0a0a0a";profilePic.style.boxShadow="0 0 15px #77caff";profilePic.style.transform="scale(1)";headings.forEach(h=>{h.style.color="";h.style.textShadow="";});},200);
+  setTimeout(()=>{
+    lightning.style.opacity=0;
+    document.body.style.backgroundColor="#0a0a0a";
+    profilePic.style.boxShadow="0 0 15px #77caff";
+    profilePic.style.transform="scale(1)";
+    headings.forEach(h=>{h.style.color="";h.style.textShadow="";});
+  },200);
 }
 function scheduleThunder(){const delay=Math.random()*10000+4000;setTimeout(()=>{thunderFlash();if(Math.random()>0.5)setTimeout(thunderFlash,150);scheduleThunder();},delay);}
 scheduleThunder();
@@ -163,5 +296,6 @@ function randomProfileGlitch(){
 }
 randomProfileGlitch();
 </script>
+
 </body>
 </html>
