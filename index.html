@@ -45,7 +45,14 @@ li::before { content:"▸ "; color:#555; }
 a { color:#77caff; text-decoration:none; }
 a:hover { color:#ff7777; }
 
-footer { text-align:center; padding:40px 20px; color:#555; font-size:0.9em; }
+footer {
+  text-align: center;
+  padding: 40px 20px;
+  color: rgba(0, 170, 85, 0.65);
+  font-size: 0.9em;
+  border-top: 1px solid rgba(0, 170, 85, 0.25);
+  text-shadow: 0 0 6px rgba(0, 170, 85, 0.25);
+}
 
 .meta { font-style:italic; color:#888; }
 
@@ -152,6 +159,27 @@ body.glitch-cursor { cursor:none; }
   75%{transform:translate(-3px,3px) rotate(0.5deg) skew(2deg);filter:hue-rotate(15deg) brightness(1.1);}
   100%{transform:translate(0,0) rotate(0deg) skew(0deg);filter:hue-rotate(0deg) brightness(1);}
 }
+
+// ===== CICADA IDLE DETECTION =====
+let cicadaIdleTimer;
+const CICADA_IDLE_TIME = 30000; // 30 seconds
+
+function resetCicadaIdle() {
+  clearTimeout(cicadaIdleTimer);
+  cicada.classList.remove("visible");
+
+  cicadaIdleTimer = setTimeout(() => {
+    cicada.classList.add("visible");
+  }, CICADA_IDLE_TIME);
+}
+
+["mousemove", "keydown", "scroll", "touchstart"].forEach(event => {
+  window.addEventListener(event, resetCicadaIdle, { passive: true });
+});
+
+resetCicadaIdle();
+
+  
 </style>
 </head>
 <body>
