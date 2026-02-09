@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Stanley Medallo - Portfolio</title>
-
 <style>
 /* ===== BASE STYLES ===== */
 body {
@@ -36,7 +35,7 @@ section {
   border-bottom:1px solid #222;
   position:relative;
   z-index:1;
-  background: rgba(0,0,0,0.15);
+  background: rgba(0,0,0,0.15); /* subtle overlay for readability */
 }
 
 p,li { color:#ccc; font-size:1em; }
@@ -46,19 +45,10 @@ li::before { content:"▸ "; color:#555; }
 a { color:#77caff; text-decoration:none; }
 a:hover { color:#ff7777; }
 
-/* ===== FOOTER (ADJUSTED) ===== */
-footer {
-  text-align:center;
-  padding:40px 20px;
-  font-size:0.9em;
-  color: rgba(0,170,85,0.65);
-  border-top:1px solid rgba(0,170,85,0.25);
-  text-shadow:0 0 6px rgba(0,170,85,0.25);
-}
+footer { text-align:center; padding:40px 20px; color:#555; font-size:0.9em; }
 
 .meta { font-style:italic; color:#888; }
 
-/* ===== TOOLTIP ===== */
 .tooltip { border-bottom:1px dotted #77caff; cursor:help; position:relative; }
 .tooltip:hover::after {
   content: attr(data-text);
@@ -77,12 +67,15 @@ footer {
 /* ===== CANVAS BINARY BACKGROUND ===== */
 #binary-bg {
   position: fixed;
-  inset: 0;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
   z-index: 0;
   pointer-events: none;
 }
 
-/* ===== CICADA 3301 (IDLE ONLY) ===== */
+/* ===== CICADA 3301 GHOST LOGO ===== */
 #cicada-logo {
   position: fixed;
   top: 50%;
@@ -92,21 +85,18 @@ footer {
   height: 200px;
   background: url('cicada3301.png') no-repeat center center;
   background-size: contain;
-
-  opacity: 0;
-  transition: opacity 2s ease;
+  opacity: 0.08;
   z-index: 0;
   pointer-events: none;
-}
-
-#cicada-logo.visible {
-  opacity: 0.18;
+  transition: opacity 0.5s ease;
 }
 
 /* ===== LIGHTNING ===== */
 #lightning {
   position: fixed;
-  inset:0;
+  top:0; left:0;
+  width:100%;
+  height:100%;
   background: rgba(255,255,255,0.15);
   opacity:0;
   pointer-events:none;
@@ -125,9 +115,10 @@ body.glitch-cursor { cursor:none; }
   pointer-events:none;
   z-index:1000;
   mix-blend-mode:difference;
+  transition: transform 0.05s linear;
 }
 
-/* ===== HERO ===== */
+/* ===== HERO WITH PROFILE PIC ===== */
 #hero { display:flex; align-items:center; gap:20px; position:relative; z-index:1; }
 #hero img {
   width:120px;
@@ -136,27 +127,33 @@ body.glitch-cursor { cursor:none; }
   border:2px solid #77caff;
   object-fit:cover;
   box-shadow:0 0 15px #77caff;
+  transition: box-shadow 0.15s ease, transform 0.15s ease;
 }
 
 @media(max-width:600px){
-  #hero { flex-direction:column; text-align:center; }
+  #hero { flex-direction:column; align-items:center; text-align:center; }
+  #hero img { margin-bottom:15px; }
 }
 
 /* ===== PROFILE GLITCH ===== */
 @keyframes glitch-small{
-  0%{transform:none;}
-  50%{transform:translate(-2px,1px) skew(1deg);}
-  100%{transform:none;}
+  0%{transform:translate(0,0) skew(0deg);filter:none;}
+  20%{transform:translate(-2px,1px) skew(1deg);filter:brightness(1.2);}
+  40%{transform:translate(1px,-1px) skew(-1deg);filter:brightness(0.9);}
+  60%{transform:translate(-1px,2px) skew(0.5deg);filter:none;}
+  80%{transform:translate(1px,0) skew(-0.5deg);filter:brightness(1.1);}
+  100%{transform:translate(0,0) skew(0deg);filter:none;}
 }
 
 @keyframes glitch-strong{
-  0%{transform:none;}
-  50%{transform:translate(-5px,5px) skew(3deg);}
-  100%{transform:none;}
+  0%{transform:translate(0,0) rotate(0deg) skew(0deg);filter:hue-rotate(0deg) brightness(1);}
+  25%{transform:translate(-5px,5px) rotate(-1deg) skew(3deg);filter:hue-rotate(30deg) brightness(1.2);}
+  50%{transform:translate(5px,-5px) rotate(1deg) skew(-3deg);filter:hue-rotate(-30deg) brightness(0.8);}
+  75%{transform:translate(-3px,3px) rotate(0.5deg) skew(2deg);filter:hue-rotate(15deg) brightness(1.1);}
+  100%{transform:translate(0,0) rotate(0deg) skew(0deg);filter:hue-rotate(0deg) brightness(1);}
 }
 </style>
 </head>
-
 <body>
 
 <canvas id="binary-bg"></canvas>
@@ -169,85 +166,135 @@ body.glitch-cursor { cursor:none; }
   <div>
     <h1>STANLEY MEDALLO</h1>
     <p><em>Human. Allegedly.</em></p>
-    <p class="meta">You are not here by accident.</p>
+    <p class="meta">You are not here by accident. This page noticed you first.</p>
   </div>
+</section>
+
+<section>
+<h2>About</h2>
+<p><strong>Name:</strong> Stanley Medallo</p>
+<p><strong>Alias:</strong> Hummingbird007</p>
+<p><strong>Guild:</strong> †es†amen†um</p>
+<p><strong>Classification:</strong> Human</p>
+<p><strong>Status:</strong> Active</p>
+<p class="meta">This information has adjusted itself for you.</p>
 </section>
 
 <section>
 <h2>Capabilities</h2>
 <ul>
-<li><span class="tooltip" data-text="Some numbers are missing.">Black Hat Hacking <em>(facility count unavailable)</em></span></li>
-<li>Cyber Penetration</li>
-<li>Magecraft</li>
-<li>Street Combat</li>
-<li>Manaksak</li>
+<li><span class="tooltip" data-text="Some numbers are missing on purpose.">Black Hat Hacking <em>(facility count unavailable)</em></span></li>
+<li>Cyber Penetration & System Compromise</li>
+<li>Magecraft (authorized and otherwise)</li>
+<li>Street Fighting (urban doctrine)</li>
+<li>Manaksak (applied disorder)</li>
 </ul>
+</section>
+
+<section>
+<h2>Experience</h2>
+<p><strong>Gladiator Arena — Roman Coliseum</strong><br>Role: Combatant<br>Outcome: Survived</p>
+<p><strong>Tournament of Power — Multiversal Event</strong><br>Role: Participant<br>Outcome: Inconclusive</p>
+<p class="meta">Records disagree on what happened next.</p>
+</section>
+
+<section>
+<h2>Interests</h2>
+<ul>
+<li>Magecraft as discipline</li>
+<li>Cyber penetration as study</li>
+<li>Street fighting as calibration</li>
+<li>Silence as leverage</li>
+<li>Restraint as survival</li>
+</ul>
+<p class="meta">These are not hobbies. They are maintenance.</p>
+</section>
+
+<section>
+<h2>Location</h2>
+<p><strong>Obsidian Row, Unit 777</strong><br>District of Lost Gold<br>El Dorado City<br>Province of Eternal Dusk<br><strong>Country:</strong> Gehenna</p>
+<p class="meta">Visitors are advised not to linger.</p>
+</section>
+
+<section>
+<h2>Contact</h2>
+<p>Email: <a href="mailto:contact@stanleymedallo.info">contact@stanleymedallo.info</a></p>
+<p class="meta">Messages are read. Some are remembered.</p>
 </section>
 
 <footer>
 <p>© Stanley Medallo</p>
 <p>†es†amen†um</p>
-<p class="meta">Observation active • 777</p>
+<p class="meta">This page was complete before you opened it.</p>
 </footer>
 
 <script>
-/* ===== BINARY RAIN ===== */
+// ===== BINARY RAIN =====
 const canvas=document.getElementById("binary-bg");
 const ctx=canvas.getContext("2d");
-let w,h,cols,drops;
+let width,height,columns,drops;
 const fontSize=18;
+const neonColor="#00aa55";
 
-function resize(){
-  w=canvas.width=window.innerWidth;
-  h=canvas.height=window.innerHeight;
-  cols=Math.floor(w/fontSize);
-  drops=Array(cols).fill(1);
-}
-resize();
-window.addEventListener("resize",resize);
+function initCanvas(){width=canvas.width=window.innerWidth;height=canvas.height=window.innerHeight;columns=Math.floor(width/fontSize);drops=Array(columns).fill(1);}
+initCanvas();
+window.addEventListener("resize",initCanvas);
 
-function rain(){
-  ctx.fillStyle="rgba(0,0,0,0.15)";
-  ctx.fillRect(0,0,w,h);
-  ctx.fillStyle="rgba(0,170,85,0.15)";
-  ctx.font=fontSize+"px monospace";
+function drawBinary(){
+  ctx.fillStyle="rgba(0,0,0,0.15)"; // darker fade
+  ctx.fillRect(0,0,width,height);
+  ctx.fillStyle="rgba(0,170,85,0.15)"; // subtle neon
+  ctx.font=`${fontSize}px monospace`;
   for(let i=0;i<drops.length;i++){
-    ctx.fillText(Math.random()>0.5?"1":"0",i*fontSize,drops[i]*fontSize);
-    drops[i]++;
-    if(drops[i]*fontSize>h)drops[i]=0;
+    const binary=Math.random()>0.5?"1":"0";
+    ctx.fillText(binary,i*fontSize,drops[i]*fontSize);
+    drops[i]+=1+Math.random()*0.5;
+    if(drops[i]*fontSize>height)drops[i]=0;
   }
 }
-setInterval(rain,35);
+setInterval(drawBinary,35);
 
-/* ===== LIGHTNING ===== */
+// ===== LIGHTNING + PROFILE GLOW + CICADA =====
 const lightning=document.getElementById("lightning");
+const profilePic=document.getElementById("profile-pic");
+const headings=document.querySelectorAll("h1,h2");
 const cicada=document.getElementById("cicada-logo");
 
-function flash(){
-  lightning.style.opacity=0.3;
-  cicada.style.opacity=Math.max(cicada.style.opacity,0.25);
-  setTimeout(()=>lightning.style.opacity=0,150);
+function thunderFlash(){
+  const intensity=Math.random()*0.4+0.2;
+  lightning.style.opacity=intensity;
+  document.body.style.backgroundColor="#050505";
+  profilePic.style.boxShadow=`0 0 ${30*intensity}px #77caff,0 0 ${60*intensity}px #77caff`;
+  profilePic.style.transform=`scale(${1+0.05*intensity})`;
+  headings.forEach(h=>{h.style.color="#ffdd77";h.style.textShadow=`0 0 ${15*intensity}px #ffdd77,0 0 ${30*intensity}px #ffdd77`;});
+  cicada.style.opacity=0.25;
+  setTimeout(()=>{cicada.style.opacity=0.08;},200);
+  setTimeout(()=>{
+    lightning.style.opacity=0;
+    document.body.style.backgroundColor="#0a0a0a";
+    profilePic.style.boxShadow="0 0 15px #77caff";
+    profilePic.style.transform="scale(1)";
+    headings.forEach(h=>{h.style.color="";h.style.textShadow="";});
+  },200);
 }
-setInterval(()=>{ if(Math.random()>0.7) flash(); },6000);
+function scheduleThunder(){const delay=Math.random()*10000+4000;setTimeout(()=>{thunderFlash();if(Math.random()>0.5)setTimeout(thunderFlash,150);scheduleThunder();},delay);}
+scheduleThunder();
 
-/* ===== CICADA IDLE ===== */
-let idleTimer;
-function resetIdle(){
-  clearTimeout(idleTimer);
-  cicada.classList.remove("visible");
-  idleTimer=setTimeout(()=>cicada.classList.add("visible"),30000);
-}
-["mousemove","keydown","scroll","touchstart"].forEach(e=>window.addEventListener(e,resetIdle,{passive:true}));
-resetIdle();
+// ===== CURSOR GLITCH =====
+const cursor=document.getElementById("glitch-cursor");
+document.body.classList.add("glitch-cursor");
+document.addEventListener("mousemove",e=>{const offsetX=(Math.random()-0.5)*10;const offsetY=(Math.random()-0.5)*10;cursor.style.transform=`translate(${e.clientX+offsetX}px,${e.clientY+offsetY}px)`;});
 
-/* ===== PROFILE GLITCH ===== */
-const pic=document.getElementById("profile-pic");
-function glitch(){
-  pic.style.animation=(Math.random()>0.5?"glitch-strong":"glitch-small")+" 0.3s linear";
-  setTimeout(()=>pic.style.animation="",300);
-  setTimeout(glitch,Math.random()*3000+2000);
+// ===== PROFILE PIC RANDOM GLITCH =====
+function randomProfileGlitch(){
+  const duration=Math.random()*0.3+0.2; // 0.2-0.5s
+  const isStrong=Math.random()>0.5;
+  profilePic.style.animation=isStrong?`glitch-strong ${duration}s linear`:`glitch-small ${duration}s linear`;
+  setTimeout(()=>{profilePic.style.animation="";},duration*1000);
+  const nextDelay=Math.random()*3000+2000;
+  setTimeout(randomProfileGlitch,nextDelay);
 }
-glitch();
+randomProfileGlitch();
 </script>
 
 </body>
